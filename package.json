@@ -1,0 +1,22 @@
+{
+  "name": "cse341-projects",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sadiebybee/cse341-projects.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sadiebybee/cse341-projects/issues"
+  },
+  "homepage": "https://github.com/sadiebybee/cse341-projects#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
