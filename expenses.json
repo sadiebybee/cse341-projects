@@ -1,0 +1,28 @@
+{
+  "expense": {
+    "name": "Groceries",
+    "categoryID": "Food/Dining",
+    "price": "$74.07",
+    "date": "05/22/25",
+    "description": "Got groceries for the next two weeks",
+    "transactionType": "Credit"
+  },
+
+  "expense2": {
+    "name": "Dutch Bros",
+    "categoryID": "Food/Dining",
+    "price": "$4.95",
+    "date": "05/27/25",
+    "description": "I took my sister to Dutch Bros",
+    "transactionType": "Credit"
+  },
+
+  "expense3": {
+    "name": "Gas",
+    "categoryID": "Transportation",
+    "price": "$27.30",
+    "date": "05/29/25",
+    "description": "Got gas to travel",
+    "transactionType": "Credit"
+  }
+}
