@@ -3,8 +3,22 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mongodb = require("./db/connect");
 const routes = require("./routes");
+const expressSession = require("express-session");
+const passport = require("./config/passport");
 
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use(expressSession({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {secure: false}
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
