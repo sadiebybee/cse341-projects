@@ -37,4 +37,75 @@ Content-Type: application/json
 
 ###
 # DELETE
-DELETE https://localhost:3000/expenses/{ID} HTTP/1.1
+DELETE http://localhost:3000/expenses/{ID} HTTP/1.1
+
+
+#### Categories
+GET  http://localhost:3000 HTTP/1.1
+
+###
+GET  http://localhost:3000/categories HTTP/1.1
+
+###
+GET http://localhost:3000/categories/6841ef6f9a2dccbe68efe26e HTTP/1.1
+
+###
+POST http://localhost:3000/categories HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Food"
+}
+
+###
+PUT http://localhost:3000/categories/6841ef6f9a2dccbe68efe26e HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Food/Dinning"
+}
+
+###
+DELETE http://localhost:3000/categories/6841ef6f9a2dccbe68efe26e HTTP/1.1
+
+
+
+####### RENDER
+GET  https://cse341-projects-xi6e.onrender.com HTTP/1.1
+
+###
+GET  https://cse341-projects-xi6e.onrender.com/expenses HTTP/1.1
+
+###
+GET https://cse341-projects-xi6e.onrender.com/expenses/{ID} HTTP/1.1
+
+###
+# POST 
+POST https://cse341-projects-xi6e.onrender.com/expenses HTTP/1.1
+Content-Type: application/json
+{
+    "name": "",
+    "categoryID": "",
+    "price": "",
+    "date": "",
+    "description": "",
+    "transactionType": ""
+}
+
+###
+# PUT
+PUT https://cse341-projects-xi6e.onrender.com/expenses/{ID} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "",
+    "categoryID": "",
+    "price": "",
+    "date": "",
+    "description": "",
+    "transactionType": ""
+}
+
+###
+# DELETE
+DELETE https://cse341-projects-xi6e.onrender.com/expenses/{ID} HTTP/1.1

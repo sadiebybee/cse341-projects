@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Expense - Expense Tracker</title>
+  </head>
+  <body>
+    <h1>Edit Expense</h1>
+
+    <nav>
+      <a href="/homePage">Back to Dashboard</a>
+      <a href="/expenses-page">View Expenses</a>
+      <a href="/categories-page">Manage Categories</a>
+      <a href="/auth/logout">Logout</a>
+    </nav>
+
+    <div id="loading">Loading expense...</div>
+
+    <form id="expense-form" style="display: none">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
+      <div>
+        <label for="categoryId">Category:</label>
+        <select id="categoryId" name="categoryId" required>
+          <option value="">Select Category</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required />
+      </div>
+
+      <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required />
+      </div>
+
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+      </div>
+
+      <div>
+        <label for="transactionType">Transaction Type:</label>
+        <select id="transactionType" name="transactionType" required>
+          <option value="">Select Type</option>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+      </div>
+
+      <button type="submit">Update Expense</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+      const expenseId = "<%= expenseId %>";
+      const REDIRECT_DELAY = 1500;
+
+      const elements = {
+        categorySelect: document.getElementById("categoryId"),
+        expenseForm: document.getElementById("expense-form"),
+        loadingDiv: document.getElementById("loading"),
+        messageDiv: document.getElementById("message"),
+      };
+
+      let categories = [];
+
+      async function initializeEditForm() {
+        try {
+          await loadCategories();
+          await loadExpenseData();
+          setupFormSubmission();
+          showForm();
+        } catch (error) {
+          showError("Error loading data: " + error.message);
+        }
+      }
+
+      async function loadCategories() {
+        const response = await fetch("/categories");
+        categories = await response.json();
+        populateCategoryDropdown();
+      }
+
+      function populateCategoryDropdown() {
+        categories.forEach((category) => {
+          const option = document.createElement("option");
+          option.value = category._id;
+          option.textContent = category.name;
+          elements.categorySelect.appendChild(option);
+        });
+      }
+
+      async function loadExpenseData() {
+        const response = await fetch(`/expenses/${expenseId}`);
+        const expense = await response.json();
+        populateFormFields(expense);
+      }
+
+      function populateFormFields(expense) {
+        const fields = [
+          "name",
+          "categoryId",
+          "price",
+          "date",
+          "description",
+          "transactionType",
+        ];
+
+        fields.forEach((field) => {
+          const element = document.getElementById(field);
+          if (element) {
+            element.value = expense[field];
+          }
+        });
+      }
+
+      function showForm() {
+        elements.loadingDiv.style.display = "none";
+        elements.expenseForm.style.display = "block";
+      }
+
+      function showError(message) {
+        elements.loadingDiv.innerHTML = message;
+      }
+
+      function setupFormSubmission() {
+        elements.expenseForm.addEventListener("submit", handleFormSubmission);
+      }
+
+      async function handleFormSubmission(event) {
+        event.preventDefault();
+
+        try {
+          const expenseData = extractFormData(event.target);
+          await updateExpense(expenseData);
+          showSuccessAndRedirect();
+        } catch (error) {
+          showMessage("Error: " + error.message, "error");
+        }
+      }
+
+      function extractFormData(form) {
+        const formData = new FormData(form);
+
+        return {
+          name: formData.get("name"),
+          categoryId: formData.get("categoryId"),
+          price: formData.get("price"),
+          date: formData.get("date"),
+          description: formData.get("description"),
+          transactionType: formData.get("transactionType"),
+        };
+      }
+
+      async function updateExpense(expenseData) {
+        const response = await fetch(`/expenses/${expenseId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(expenseData),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error updating expense");
+        }
+      }
+
+      function showSuccessAndRedirect() {
+        showMessage("Expense updated successfully!", "success");
+
+        setTimeout(() => {
+          window.location.href = "/expenses-page";
+        }, REDIRECT_DELAY);
+      }
+
+      function showMessage(message, type = "info") {
+        const className =
+          type === "error" ? "error-message" : "success-message";
+        elements.messageDiv.innerHTML = `<p class="${className}">${message}</p>`;
+      }
+
+      initializeEditForm();
+    </script>
+  </body>
+</html>

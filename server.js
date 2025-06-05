@@ -5,6 +5,10 @@ const mongodb = require("./db/connect");
 const routes = require("./routes");
 const expressSession = require("express-session");
 const passport = require("./config/passport");
+const path = require("path");
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

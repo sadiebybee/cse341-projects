@@ -45,6 +45,7 @@ passport.deserializeUser(async (gitHubID, done) => {
   try {
     const db = mongodb.getDb().db("expenses");
     const user = await db.collection("users").findOne({ gitHubID: gitHubID });
+    done(null, user);
   } catch (error) {
     done(error, null);
   }

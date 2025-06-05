@@ -2,37 +2,48 @@ const { response } = require("express");
 const mongodb = require("../db/connect");
 const ObjectId = require("mongodb").ObjectId;
 
-
 const validateExpense = (expense) => {
-    const errors = [];
-    if (expense.name && (typeof expense.name !== 'string' || expense.name.length < 3 || expense.name.length > 30)) {
-        errors.push('Name must be between 3 and 30 characters');
-    }
+  const errors = [];
+  if (
+    expense.name &&
+    (typeof expense.name !== "string" ||
+      expense.name.length < 3 ||
+      expense.name.length > 30)
+  ) {
+    errors.push("Name must be between 3 and 30 characters");
+  }
 
-    if (expense.categoryId && (typeof parseInt(expense.categoryId) !== 'number')) {
-        errors.push('category Id is required');
+  if (expense.categoryId && typeof parseInt(expense.categoryId) !== "number") {
+    errors.push("category Id is required");
+  }
 
-    }
+  if (expense.price && typeof parseInt(expense.price) !== "number") {
+    errors.push("Price must be formatted correctly");
+  }
 
-    if (expense.price && (typeof parseInt(expense.price) !== 'number')) {
-        errors.push('Price must be formatted correctly');
-    }
+  if (expense.date && typeof new Date(expense.date) !== "object") {
+    errors.push("Date must be formatted correctly (YYYY-MM-DD)");
+  }
 
-    if (expense.date && (typeof new Date(expense.date) !== 'object')) {
-        errors.push('Date must be formatted correctly (YYYY-MM-DD)');
-    }
+  if (
+    expense.description &&
+    (typeof expense.description !== "string" ||
+      expense.description.length < 5 ||
+      expense.description.length > 250)
+  ) {
+    errors.push("Description must be between 5 and 250 characters");
+  }
 
-    if (expense.description && (typeof expense.description !== 'string' || expense.description.length < 5 || expense.description.length > 250)) {
-        errors.push('Description must be between 5 and 250 characters');
-    }
+  if (
+    expense.transactionType &&
+    (typeof expense.transactionType !== "string" ||
+      expense.transactionType.length < 0)
+  ) {
+    errors.push("Transaction can't be empty");
+  }
 
-    if (expense.transactionType && (typeof expense.transactionType !== 'string' || expense.transactionType.length < 0 )) {
-        errors.push('Transaction can\'t be empty');
-    }
-
-    return errors;
+  return errors;
 };
-
 
 const getAll = async (req, res, next) => {
   const result = await mongodb
@@ -90,7 +101,9 @@ const createExpense = async (req, res, next) => {
       res.status(500).json({ message: "Failed to create expense." });
     }
   } catch (error) {
-    res.status(500).json({ message: "Failed to create expense.", error:error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to create expense.", error: error.message });
   }
 };
 

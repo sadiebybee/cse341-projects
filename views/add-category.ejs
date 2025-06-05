@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Category - Expense Tracker</title>
+  </head>
+  <body>
+    <h1>Add New Category</h1>
+
+    <nav>
+      <a href="/homePage">Back to Dashboard</a>
+      <a href="/categories-page">View Categories</a>
+      <a href="/auth/logout">Logout</a>
+    </nav>
+
+    <form id="category-form">
+      <div>
+        <label for="name">Category Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          minlength="2"
+          maxlength="50"
+        />
+        <small>Name must be 2-50 characters long</small>
+      </div>
+
+      <button type="submit">Add Category</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+      const REDIRECT_DELAY = 1500;
+
+      const elements = {
+        categoryForm: document.getElementById("category-form"),
+        messageDiv: document.getElementById("message"),
+      };
+
+      function initializeCategoryForm() {
+        setupFormSubmission();
+      }
+
+      function setupFormSubmission() {
+        elements.categoryForm.addEventListener("submit", handleFormSubmission);
+      }
+
+      async function handleFormSubmission(event) {
+        event.preventDefault();
+
+        try {
+          const categoryData = extractFormData(event.target);
+          await createCategory(categoryData);
+          handleSuccessfulCreation(event.target);
+        } catch (error) {
+          showMessage("Error: " + error.message, "error");
+        }
+      }
+
+      function extractFormData(form) {
+        const formData = new FormData(form);
+        const name = formData.get("name").trim();
+
+        if (!name) {
+          throw new Error("Category name is required");
+        }
+
+        return { name };
+      }
+
+      async function createCategory(categoryData) {
+        const response = await fetch("/categories", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(categoryData),
+        });
+
+        const data = await response.json();
+
+        if (data.message !== "Category created successfully") {
+          throw new Error(data.message || "Error adding category");
+        }
+      }
+
+      function handleSuccessfulCreation(form) {
+        showMessage("Category added successfully!", "success");
+        form.reset();
+
+        setTimeout(() => {
+          window.location.href = "/categories-page";
+        }, REDIRECT_DELAY);
+      }
+
+      function showMessage(message, type = "info") {
+        const className =
+          type === "error" ? "error-message" : "success-message";
+        elements.messageDiv.innerHTML = `<p class="${className}">${message}</p>`;
+      }
+
+      initializeCategoryForm();
+    </script>
+  </body>
+</html>

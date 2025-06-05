@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Home</title>
+</head>
+<body>
+    <h1>Welcome to Expense Tracker</h1>
+    
+    <% if (typeof user !== 'undefined' && user) { %>
+        <p>Hello, <%= user.displayName || user.name %>!</p>
+        <nav>
+            <a href="/homePage">Go to Dashboard</a>
+            <a href="/expenses-page">View Expenses</a>
+            <a href="/add-expense">Add New Expense</a>
+            <a href="/categories">Manage Categories</a>
+            <a href="/auth/logout">Logout</a>
+        </nav>
+    <% } else { %>
+        <p>Please log in to manage your expenses.</p>
+        <a href="/auth/github">Login with GitHub</a>
+    <% } %>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Expense Tracker</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <p>Welcome back, <%= user.displayName || user.name %>!</p>
+    
+    <nav>
+        <a href="/expenses-page">View All Expenses</a>
+        <a href="/add-expense">Add New Expense</a>
+        <a href="/categories-page">Manage Categories</a>
+        <a href="/auth/logout">Logout</a>
+    </nav>
+    
+    <div>
+        <h2>Quick Actions</h2>
+        <ul>
+            <li><a href="/add-expense">Add New Expense</a></li>
+            <li><a href="/expenses-page">View Expenses</a></li>
+            <li><a href="/categories-page">Manage Categories</a></li>
+            <li><a href="/add-category">Add New Category</a></li>
+            <li><a href="/auth/profile">View Profile</a></li>
+        </ul>
+    </div>
+</body>
+</html>
