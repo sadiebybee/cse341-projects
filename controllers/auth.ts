@@ -1,3 +1,5 @@
+import { NextFunction } from "express";
+
 const passport = require('passport');
 
 const gitHubAuth = passport.authenticate('github', { scope: ['user:email'] });
@@ -5,12 +7,12 @@ const gitHubCallback = passport.authenticate('github', {
     failureRedirect: '/auth/login'
 });
 
-const handleCallBack = (req, res) => {
+const handleCallBack = (req: any, res: any) => {
     res.redirect('/homePage');
 };
 
-const logout = (req, res) => {
-    req.logout((err) => {
+const logout = (req: any, res: any) => {
+    req.logout((err: Error) => {
         if (err) {
             res.status(500).json({message: 'Failed to logout.'});
         }
@@ -18,7 +20,7 @@ const logout = (req, res) => {
     })
 };
 
-const getProfile = (req, res) => {
+const getProfile = (req: any, res: any) => {
     if (req.isAuthenticated()) {
         res.json({
             authenticated: true,
@@ -36,14 +38,12 @@ const getProfile = (req, res) => {
     }
 };
 
-const checkAuth = (req, res, next) => {
+const checkAuth = (req: any, res: any, next: NextFunction) => {
     if (req.authenticated()) {
         return next();
     }
     res.status(401).json({ message: 'Authentication required'});
 };
-
-
 
 module.exports = {
     gitHubAuth,
@@ -53,3 +53,5 @@ module.exports = {
     getProfile,
     checkAuth
 };
+
+export {};

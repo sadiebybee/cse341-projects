@@ -2,7 +2,7 @@ const { response } = require("express");
 const mongodb = require("../db/connect");
 const ObjectId = require("mongodb").ObjectId;
 
-const validateCategory = (category) => {
+const validateCategory = (category: any) => {
   const errors = [];
   if (
     category.name &&
@@ -15,32 +15,32 @@ const validateCategory = (category) => {
   return errors;
 };
 
-const getAllCategories = async (req, res) => {
+const getAllCategories = async (req: any, res: any) => {
   const result = await mongodb
     .getDb()
     .db("expenses")
     .collection("categories")
     .find();
-  result.toArray().then((categories) => {
+  result.toArray().then((categories: any) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(categories);
   });
 };
 
-const getSingleCategory = async (req, res) => {
+const getSingleCategory = async (req: any, res: any) => {
   const categoryId = new ObjectId(req.params.id);
   const result = await mongodb
     .getDb()
     .db("expenses")
     .collection("categories")
     .find({ _id: categoryId });
-  result.toArray().then((categories) => {
+  result.toArray().then((categories: any) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(categories[0]);
   });
 };
 
-const createCategory = async (req, res) => {
+const createCategory = async (req: any, res: any) => {
 
   try {
     const category = {
@@ -64,14 +64,14 @@ const createCategory = async (req, res) => {
     } else {
       res.status(500).json({ message: "Failed to create category." });
     }
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
       .json({ message: "Failed to create category.", error: error.message });
   }
 };
 
-const updateCategory = async (req, res) => {
+const updateCategory = async (req: any, res: any) => {
   try {
     const categoryId = new ObjectId(req.params.id);
     const category = {
@@ -95,14 +95,14 @@ const updateCategory = async (req, res) => {
     } else {
       res.status(500).json({ message: "Failed to update category." });
     }
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
       .json({ message: "Failed to update category.", error: error.message });
   }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req: any, res: any) => {
   try {
     const categoryId = new ObjectId(req.params.id);
     const result = await mongodb
@@ -116,7 +116,7 @@ const deleteCategory = async (req, res) => {
     } else {
       res.status(500).json({ message: "Failed to delete category." });
     }
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
       .json({ message: "Failed to delete category.", error: error.message });
@@ -130,3 +130,5 @@ module.exports = {
   updateCategory,
   deleteCategory,
 };
+
+export {};

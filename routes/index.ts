@@ -5,11 +5,11 @@ const apiDocs = require("./apiDocs");
 const categories = require("./categories");
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req: any, res: any) => {
   res.render('index', { user: req.user });
 });
  
-router.get('/homePage', (req, res) => {
+router.get('/homePage', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
@@ -17,42 +17,42 @@ router.get('/homePage', (req, res) => {
   res.render('home', { user: req.user });
 });
  
-router.get('/expenses-page', (req, res) => {
+router.get('/expenses-page', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
   res.render('expenses', { user: req.user });
 });
  
-router.get('/add-expense', (req, res) => {
+router.get('/add-expense', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
   res.render('add-expense', { user: req.user });
 });
  
-router.get('/edit-expense/:id', (req, res) => {
+router.get('/edit-expense/:id', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
   res.render('edit-expense', { user: req.user, expenseId: req.params.id });
 });
  
-router.get('/categories-page', (req, res) => {
+router.get('/categories-page', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
   res.render('categories', { user: req.user });
 });
  
-router.get('/add-category', (req, res) => {
+router.get('/add-category', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
   res.render('add-category', { user: req.user });
 });
  
-router.get('/edit-category/:id', (req, res) => {
+router.get('/edit-category/:id', (req: any, res: any) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }

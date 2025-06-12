@@ -7,7 +7,7 @@ const {
     createExpense,
     updateExpense,
     deleteExpense,
-} = require("../controllers/expenses.js");
+} = require("../controllers/expenses");
 
 expenseRoutes.get("/", getAll);
 expenseRoutes.get("/:id", getSingle);
@@ -16,5 +16,6 @@ expenseRoutes.put("/:id", updateExpense);
 expenseRoutes.delete("/:id", deleteExpense);
 
 module.exports = expenseRoutes;
+export {};
 
 

@@ -9,3 +9,4 @@ authRoutes.get('/profile', getProfile);
 authRoutes.get('/logout', logout);
 
 module.exports = authRoutes;
+export {};

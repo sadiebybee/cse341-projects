@@ -7,7 +7,7 @@ const {
     createCategory,
     updateCategory,
     deleteCategory,
-} = require("../controllers/categories.js");
+} = require("../controllers/categories");
 
 categoryRoutes.get("/", getAllCategories);
 categoryRoutes.get("/:id", getSingleCategory);
@@ -16,3 +16,4 @@ categoryRoutes.put("/:id", updateCategory);
 categoryRoutes.delete("/:id", deleteCategory);
 
 module.exports = categoryRoutes;
+export {};

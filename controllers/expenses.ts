@@ -1,8 +1,10 @@
+import { NextFunction } from "express";
+
 const { response } = require("express");
 const mongodb = require("../db/connect");
 const ObjectId = require("mongodb").ObjectId;
 
-const validateExpense = (expense) => {
+const validateExpense = (expense: any) => {
   const errors = [];
   if (
     expense.name &&
@@ -45,32 +47,32 @@ const validateExpense = (expense) => {
   return errors;
 };
 
-const getAll = async (req, res, next) => {
+const getAll = async (req: any, res: any, next: NextFunction) => {
   const result = await mongodb
     .getDb()
     .db("expenses")
     .collection("mainExpenses")
     .find();
-  result.toArray().then((lists) => {
+  result.toArray().then((lists: any) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(lists);
   });
 };
 
-const getSingle = async (req, res, next) => {
+const getSingle = async (req: any, res: any, next: NextFunction) => {
   const expenseId = new ObjectId(req.params.id);
   const result = await mongodb
     .getDb()
     .db("expenses")
     .collection("mainExpenses")
     .find({ _id: expenseId });
-  result.toArray().then((lists) => {
+  result.toArray().then((lists: any) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(lists[0]);
   });
 };
 
-const createExpense = async (req, res, next) => {
+const createExpense = async (req: any, res: any, next: NextFunction) => {
   //   //we are creating a contact here
   try {
     const expense = {
@@ -100,14 +102,14 @@ const createExpense = async (req, res, next) => {
     } else {
       res.status(500).json({ message: "Failed to create expense." });
     }
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
       .json({ message: "Failed to create expense.", error: error.message });
   }
 };
 
-const updateExpense = async (req, res, next) => {
+const updateExpense = async (req: any, res: any, next: NextFunction) => {
   try {
     const expenseId = new ObjectId(req.params.id);
     const expense = {
@@ -142,7 +144,7 @@ const updateExpense = async (req, res, next) => {
   }
 };
 
-const deleteExpense = async (req, res, next) => {
+const deleteExpense = async (req: any, res: any, next: NextFunction) => {
   try {
     const expenseId = new ObjectId(req.params.id);
     const result = await mongodb
@@ -168,3 +170,4 @@ module.exports = {
   updateExpense,
   deleteExpense,
 };
+export {};

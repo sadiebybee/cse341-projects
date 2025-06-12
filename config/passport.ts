@@ -1,3 +1,6 @@
+import { Callback } from "mongodb";
+import { DoneCallback } from "passport";
+
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 const mongodb = require("../db/connect");
@@ -9,7 +12,7 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (accessToken: any, refreshToken: any, profile: any, done: DoneCallback) => {
       try {
         const db = mongodb.getDb().db("expenses");
         let user = await db
@@ -38,10 +41,10 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done: DoneCallback) => {
   done(null, user.gitHubID);
 });
-passport.deserializeUser(async (gitHubID, done) => {
+passport.deserializeUser(async (gitHubID: any, done: DoneCallback) => {
   try {
     const db = mongodb.getDb().db("expenses");
     const user = await db.collection("users").findOne({ gitHubID: gitHubID });
@@ -52,3 +55,4 @@ passport.deserializeUser(async (gitHubID, done) => {
 });
 
 module.exports = passport;
+export {};

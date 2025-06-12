@@ -1,3 +1,5 @@
+import { NextFunction } from "express";
+
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,13 +25,13 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
+app.use((req: any, res: any, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
 })
 app.use('/', routes);
 
-mongodb.initDb((err, mongodb) => {
+mongodb.initDb((err: Error, mongodb: any) => {
   if (err) {
     console.log(err);
   } else {
@@ -37,3 +39,5 @@ mongodb.initDb((err, mongodb) => {
     console.log(`Connected to DB and listening on ${port}`);
   }
 });
+
+export {};
