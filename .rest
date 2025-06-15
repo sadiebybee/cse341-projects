@@ -109,3 +109,32 @@ Content-Type: application/json
 ###
 # DELETE
 DELETE https://cse341-projects-xi6e.onrender.com/expenses/{ID} HTTP/1.1
+
+
+#### Categories Render
+GET  https://cse341-projects-xi6e.onrender.com HTTP/1.1
+
+###
+GET  https://cse341-projects-xi6e.onrender.com/categories HTTP/1.1
+
+###
+GET https://cse341-projects-xi6e.onrender.com/categories/684e3ae5fcf68f524ce7ff73 HTTP/1.1
+
+###
+POST https://cse341-projects-xi6e.onrender.com/categories HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Entertainment"
+}
+
+###
+PUT https://cse341-projects-xi6e.onrender.com/categories/684e3ae5fcf68f524ce7ff73 HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Car"
+}
+
+###
+DELETE https://cse341-projects-xi6e.onrender.com/categories/684e3ae5fcf68f524ce7ff73 HTTP/1.1

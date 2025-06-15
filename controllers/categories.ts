@@ -41,10 +41,9 @@ const getSingleCategory = async (req: any, res: any) => {
 };
 
 const createCategory = async (req: any, res: any) => {
-
   try {
     const category = {
-      name: req.body.name
+      name: req.body.name,
     };
 
     const validateErrors = validateCategory(category);
@@ -60,7 +59,7 @@ const createCategory = async (req: any, res: any) => {
       .collection("categories")
       .insertOne(category);
     if (result.acknowledged) {
-      res.status(201).json(response);
+      res.status(201).json({ message: "Category created successfully" });
     } else {
       res.status(500).json({ message: "Failed to create category." });
     }
@@ -91,7 +90,7 @@ const updateCategory = async (req: any, res: any) => {
       .collection("categories")
       .replaceOne({ _id: categoryId }, category);
     if (result.modifiedCount > 0) {
-      res.status(204).json(response);
+      res.status(200).json({ message: "Category updated successfully" });
     } else {
       res.status(500).json({ message: "Failed to update category." });
     }
@@ -112,7 +111,7 @@ const deleteCategory = async (req: any, res: any) => {
       .deleteOne({ _id: categoryId });
 
     if (result.deletedCount > 0) {
-      res.status(200).json(response);
+      res.status(200).json({ message: "Category deleted successfully" });
     } else {
       res.status(500).json({ message: "Failed to delete category." });
     }
